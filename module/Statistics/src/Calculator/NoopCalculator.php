@@ -42,12 +42,12 @@ class NoopCalculator extends AbstractCalculator
     /**
      * @inheritDoc
      */
-    protected function doCalculate(): StatisticsTo
+    public function doCalculate(): StatisticsTo
     {
         $stats = new StatisticsTo();
         foreach ($this->totals as $userId => $userPostsStatistics) {
             $child = (new StatisticsTo())
-                ->setName($this->parameters->getStatName())
+//                ->setName($this->parameters->getStatName())
                 ->setSplitPeriod('')
                 ->setValue($userPostsStatistics['postCount'])
                 ->setAdditionalDetails($userPostsStatistics['userName'])

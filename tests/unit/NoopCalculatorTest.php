@@ -4,8 +4,8 @@ namespace Tests\unit;
 
 use PHPUnit\Framework\TestCase;
 use Statistics\Calculator\NoopCalculator;
-use SocialPost\Dto\SocialPostTo;
 use Statistics\Dto\ParamsTo;
+use Statistics\Dto\StatisticsTo;
 use Statistics\Enum\StatsEnum;
 
 class NoopCalculatorTest extends TestCase
@@ -14,30 +14,25 @@ class NoopCalculatorTest extends TestCase
 
     protected function setUp(): void
     {
-//        $this->noopCalculator = $this->createMock(NoopCalculator::class);
         $this->paramsTo = $this->createMock(ParamsTo::class);
     }
 
-//    public function testDoAccumulate()
-//    {
-//
-//    }
-
-    public function testTestable()
+    public function testDoCalculate()
     {
-        $socialPostTo = new SocialPostTo();
+        $noopCalculator = new NoopCalculator();
 
-        $testable = new NoopCalculator();
-
-
-
-        $testable->totals = [
-            0 => [],
+        $noopCalculator->totals = [
+            0 => ['userName' => 'testUser1', 'postCount' => 3],
+            1 => ['userName' => 'testUser2', 'postCount' => 2],
+            2 => ['userName' => 'testUser3', 'postCount' => 32],
         ];
 
         $this->paramsTo->method('getStatName')->willReturn(StatsEnum::AVERAGE_POST_NUMBER_PER_USER);
 
-        $testableReturn = $testable->testable();
-        $this->assertEquals(42, $testableReturn);
+        $noopCalculatorCalculate = $noopCalculator->doCalculate();
+
+        $this->assertInstanceOf(StatisticsTo::class, $noopCalculatorCalculate);
+        $this->assertCount(3, $noopCalculatorCalculate->getChildren());
+        $this->assertInstanceOf(StatisticsTo::class, $noopCalculatorCalculate->getChildren()[0]);
     }
 }
