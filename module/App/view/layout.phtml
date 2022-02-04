@@ -43,16 +43,16 @@
     }
 
     function appendRow(stats) {
-        if (stats.value !== null && stats.splitPeriod === null) {
+        if (stats.value !== null && stats.splitPeriod === null && stats.additionalDetails === null) {
             $('#stats-table').append(
                 '<tr><td>' + stats.label + '</td>' +
                 '<td>' + stats.value + ' ' + stats.units + '</td></tr>'
             );
         }
 
-        if (stats.value !== null && stats.splitPeriod !== null) {
+        if (stats.value !== null && (stats.splitPeriod !== null || stats.additionalDetails !== null)) {
             $('#stats-table').append(
-                '<tr><td class="text-right">' + stats.splitPeriod + '</td>' +
+                '<tr><td class="text-right">' + stats.splitPeriod + ' ' + stats.additionalDetails + '</td>' +
                 '<td>' + stats.value + ' ' + stats.units + '</td></tr>'
             );
         }

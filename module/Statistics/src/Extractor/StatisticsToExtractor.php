@@ -25,11 +25,12 @@ class StatisticsToExtractor
             : null;
 
         $extracted = [
-            'name'        => $statisticsTo->getName(),
-            'label'       => $label,
-            'value'       => $statisticsTo->getValue(),
-            'units'       => $statisticsTo->getUnits(),
-            'splitPeriod' => $statisticsTo->getSplitPeriod(),
+            'name'              => $statisticsTo->getName(),
+            'label'             => $label,
+            'value'             => $statisticsTo->getValue(),
+            'units'             => $statisticsTo->getUnits(),
+            'splitPeriod'       => $statisticsTo->getSplitPeriod(),
+            'additionalDetails' => $statisticsTo->getAdditionalDetails(),
         ];
 
         if (empty($statisticsTo->getChildren())) {

@@ -36,6 +36,30 @@ class StatisticsTo
     private $children = [];
 
     /**
+     * @var string
+     */
+    private string $additionalDetails = '';
+
+    /**
+     * @return string|null
+     */
+    public function getAdditionalDetails(): ?string
+    {
+        return $this->additionalDetails;
+    }
+
+    /**
+     * @param string $additionalDetails
+     * @return StatisticsTo
+     */
+    public function setAdditionalDetails(string $additionalDetails): self
+    {
+        $this->additionalDetails = $additionalDetails;
+
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getName(): ?string

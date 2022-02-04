@@ -44,11 +44,11 @@ class SocialPostService
     }
 
     /**
-     * @param FetchParamsTo $fetchParams
+     * @param FetchParamsTo|null $fetchParams
      *
      * @return Traversable
      */
-    public function fetchPosts(FetchParamsTo $fetchParams = null): Traversable
+    public function fetchPosts(?FetchParamsTo $fetchParams = null): Traversable
     {
         $fetchParams = $fetchParams ?? $this->getDefaultParams();
 

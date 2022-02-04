@@ -9,12 +9,34 @@ use Statistics\Dto\StatisticsTo;
 
 class NoopCalculator extends AbstractCalculator
 {
+    protected const UNITS = 'posts';
+
+    protected string $splitPeriod = '';
+
+    /**
+     * @var array
+     */
+    public array $totals = [];
+
     /**
      * @inheritDoc
      */
     protected function doAccumulate(SocialPostTo $postTo): void
     {
-        // Noops!
+        $key = $postTo->getAuthorId();
+
+        if ($this->splitPeriod === '') {
+            $this->splitPeriod = $postTo->getDate()->format('F, Y');
+        }
+
+        if (!isset($this->totals[$key])) {
+            $this->totals[$key] = [
+                'userName' => $postTo->getAuthorName(),
+                'postCount' => 0
+            ];
+        }
+
+        $this->totals[$key]['postCount']++;
     }
 
     /**
@@ -22,6 +44,18 @@ class NoopCalculator extends AbstractCalculator
      */
     protected function doCalculate(): StatisticsTo
     {
-        return new StatisticsTo();
+        $stats = new StatisticsTo();
+        foreach ($this->totals as $userId => $userPostsStatistics) {
+            $child = (new StatisticsTo())
+                ->setName($this->parameters->getStatName())
+                ->setSplitPeriod('')
+                ->setValue($userPostsStatistics['postCount'])
+                ->setAdditionalDetails($userPostsStatistics['userName'])
+                ->setUnits(self::UNITS);
+
+            $stats->addChild($child);
+        }
+
+        return $stats;
     }
 }
